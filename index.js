@@ -1,9 +1,11 @@
 var express = require('express');
+var path = require('path');
 var app = express();
 app.listen(8080);
 // app.listen(process.env.PORT);
 
-app.use(express.static('images'));
+app.use(express.static(path.join(__dirname, 'public')));
+
 var fs = require('fs');
 var multer  = require('multer');
 var storage = multer.diskStorage({
@@ -40,7 +42,7 @@ app.use(function(req, res, next) {
 
 console.log('Up...',Date.now());
 
-app.get('/',function (req, res){
+app.get('/post',function (req, res){
     Post.find({},function(err, posts) {
         if (err){
            res.send("ERROR:",err);
@@ -51,6 +53,12 @@ app.get('/',function (req, res){
     });
     console.log('Entro por /, Time:',Date.now())
 });
+
+app.get('/', function(req, res){
+    res.sendFile(path.join(__dirname, 'views/index.html'));    
+})
+
+
 
 const max = (a, b) => (a > b ? a : b);
 const getNewID = list => list.reduce((maxID, x) => max(maxID, x.id), 0) + 1;
