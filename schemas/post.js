@@ -4,7 +4,8 @@ var Schema = mongoose.Schema;
 
 var PostSchema = Schema({
     title: String,
-    path: String
+    path: String,
+    votes: String
 });
 
 module.exports = mongoose.model('post', PostSchema);
